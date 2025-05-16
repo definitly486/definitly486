@@ -1,0 +1,3 @@
+openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -e -d -in discord.tar.xz.enc -out discord.tar.xz
+
+release discord
