@@ -1,6 +1,13 @@
 #!/bin/sh
 
 
+if test "$(id -u)" -ne 0; then
+	printf "%s must be run as root\n" "${0##*/}"
+	exit 1
+fi
+
+
+
 install_apt () {
 
  apt install git mc screen htop sshpass 
