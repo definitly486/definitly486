@@ -1,13 +1,6 @@
 #!/bin/sh
 
 
-if test "$(id -u)" -ne 0; then
-	printf "%s must be run as root\n" "${0##*/}"
-	exit 1
-fi
-
-
-
 install_apt () {
 
  apt install git mc screen htop sshpass 
@@ -21,7 +14,9 @@ install_dnf  () {
 }
 
 if [ "debian" = "$(uname -n)"   ] ; then
-    
+    echo "install packages for debian "
+    install_apt
+elif [ "debian_version" = "$(ls /etc | grep debian)"   ] ; then
     echo "install packages for debian "
     install_apt
 else
