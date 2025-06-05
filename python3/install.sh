@@ -3,7 +3,7 @@
 sudo apt-get install -y  zlib1g-dev libffi-dev
 
 NAME=Python-3.8.8rc1
-VER=$(echo $NAME | sed 's/.......//' |  sed 's/^\(.*\).$/\1/' | sed 's/^\(.*\).$/\1/')
+VER=$(echo $NAME | sed 's/.......//')
 wget https://www.python.org/ftp/python/$VER/$NAME.tar.xz
 tar xf $NAME.tar.xz
 
