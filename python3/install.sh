@@ -8,6 +8,7 @@ wget https://www.python.org/ftp/python/$VER/$NAME.tar.xz
 tar xf $NAME.tar.xz
 
 cp Setup $NAME/Modules
+sudo rm /usr/local/lib64/libssl.so
 
 cd $NAME
 ./configure
@@ -15,3 +16,7 @@ make && sudo make install
 
 
 sudo ln -s $HOME/.local/bin/yt-dlp /usr/bin/yt-dlp
+sudo ln -s  $HOME/.local/bin/streamlink /usr/bin/streamlink
+
+pip3  install pipx
+$HOME/.local/bin/pipx install git+https://github.com/streamlink/streamlink.git
