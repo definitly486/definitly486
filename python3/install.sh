@@ -2,7 +2,7 @@
 
 sudo apt-get install -y  zlib1g-dev libffi-dev
 
-NAME=Python-3.9.0b4
+NAME=Python-3.8.8rc1
 VER=$(echo $NAME | sed 's/.......//' |  sed 's/^\(.*\).$/\1/' | sed 's/^\(.*\).$/\1/')
 wget https://www.python.org/ftp/python/$VER/$NAME.tar.xz
 tar xf $NAME.tar.xz
@@ -20,3 +20,4 @@ sudo ln -s  $HOME/.local/bin/streamlink /usr/bin/streamlink
 
 pip3  install pipx
 $HOME/.local/bin/pipx install git+https://github.com/streamlink/streamlink.git
+$HOME/.local/bin/pipx install yt-dlp
