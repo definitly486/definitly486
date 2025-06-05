@@ -1,5 +1,8 @@
 #!/bin/sh
 
-wget https://www.python.org/ftp/python/3.11.0/Python-3.11.0a6.tar.xz
-tar xf Python-3.11.0a6.tar.xz
-cd Python-3.11.0a6
+NAME=Python-3.9.0b4
+
+wget https://www.python.org/ftp/python/3.11.0/$NAME.tar.xz
+tar xf $NAME.tar.xz
+cd $NAME
+./configure
