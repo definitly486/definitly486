@@ -7,5 +7,3 @@ git add .
 git commit -n
 git push  https://github.com/definitly486/definitly486.git
 
-
-fi
