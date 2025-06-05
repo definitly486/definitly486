@@ -1,7 +1,9 @@
 #!/bin/sh
 
+sudo apt-get install -y  zlib1g-dev libffi-dev realpath
+
 DIR=$(dirname "$(realpath $0)")
-sudo apt-get install -y  zlib1g-dev libffi-dev
+
 
 NAME=Python-3.8.13
 VER=$(echo $NAME | sed 's/.......//')
