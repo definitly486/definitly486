@@ -32,9 +32,9 @@ chmod +x firerox_run.sh
 
 if [ "14.04" = "$(cat /etc/os-release | grep  VERSION_ID | grep -oP '(?<=").+?(?=")')"  ]   ; then
     
+    cd $HOME/firefox
     echo "apply fix"
-    fix () 
-    
+    fix 
 else
    exit 
 fi
