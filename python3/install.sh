@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sudo apt-get install -y  zlib1g-dev
+sudo apt-get install -y  zlib1g-dev libffi-dev
 
 NAME=Python-3.9.0b4
 VER=$(echo $NAME | sed 's/.......//' |  sed 's/^\(.*\).$/\1/' | sed 's/^\(.*\).$/\1/')
