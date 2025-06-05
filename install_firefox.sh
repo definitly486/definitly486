@@ -9,3 +9,32 @@ if ! [  -f "/tmp/firefox-$ver.tar.xz" ]; then
 fi
 
 tar -xf firefox-$ver.tar.xz -C $HOME
+
+
+fix () {
+
+cat << EOF >   stub.c
+#include <stdio.h>
+void gdk_window_show_window_menu(void) {}
+EOF
+
+cc -shared -o stub.so stub.c -fPIC
+
+
+cat << EOF >   firerox_run.sh
+LD_PRELOAD=./stub.so ./firefox "$@"
+EOF
+
+chmod +x firerox_run.sh
+}
+
+
+
+if [ "14.04" = "$(cat /etc/os-release | grep  VERSION_ID | grep -oP '(?<=").+?(?=")')"  ]   ; then
+    
+    echo "apply fix"
+    fix () 
+    
+else
+   exit 
+fi
