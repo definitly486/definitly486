@@ -8,3 +8,7 @@ wget https://www.python.org/ftp/python/$VER/$NAME.tar.xz
 tar xf $NAME.tar.xz
 cd $NAME
 ./configure
+make && sudo make install
+
+
+sudo ln -s $HOME/.local/bin/yt-dlp /usr/bin/yt-dlp
