@@ -10,8 +10,8 @@ VER=$(echo $NAME | sed 's/.......//')
 wget -P $DIR  https://www.python.org/ftp/python/$VER/$NAME.tar.xz 
 tar xf $DIR/$NAME.tar.xz -C $DIR
 
-cp $DIR/Setup $DIR/$NAME/Modules
- sudo rm /usr/local/bin/openssl
+#cp $DIR/Setup $DIR/$NAME/Modules
+#sudo rm /usr/local/bin/openssl
 
 cd $DIR/$NAME
 ./configure
