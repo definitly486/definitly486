@@ -25,7 +25,7 @@ cat << EOF >   firefox_run.sh
 LD_PRELOAD=./stub.so ./firefox "\$@"
 EOF
 
-chmod +x firerox_run.sh
+chmod +x firefox_run.sh
 }
 
 
