@@ -30,4 +30,4 @@ else
     install_dnf
 fi
 
-#sudo apt-get install build-essential libmnl-dev libcap-dev zlib1g-dev  libsystemd-dev
+#sudo apt-get install build-essential libmnl-dev libcap-dev zlib1g-dev  libsystemd-dev libnetfilter-queue-dev
