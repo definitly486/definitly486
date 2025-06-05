@@ -5,7 +5,7 @@ sudo apt-get install -y  zlib1g-dev libffi-dev realpath
 DIR=$(dirname "$(realpath $0)")
 
 
-NAME=Python-3.12.18
+NAME=Python-3.12.8
 VER=$(echo $NAME | sed 's/.......//')
 wget -P $DIR  https://www.python.org/ftp/python/$VER/$NAME.tar.xz 
 tar xf $DIR/$NAME.tar.xz -C $DIR
