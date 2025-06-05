@@ -8,7 +8,7 @@ wget https://www.python.org/ftp/python/$VER/$NAME.tar.xz
 tar xf $NAME.tar.xz
 
 cp Setup $NAME/Modules
-sudo rm /usr/local/lib64/libssl.so
+sudo rm sudo rm /usr/local/bin/openssl
 
 cd $NAME
 ./configure
