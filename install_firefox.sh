@@ -21,8 +21,8 @@ EOF
 cc -shared -o stub.so stub.c -fPIC
 
 
-cat << EOF >   firerox_run.sh
-LD_PRELOAD=./stub.so ./firefox "$@"
+cat << EOF >   firefox_run.sh
+LD_PRELOAD=./stub.so ./firefox "\$@"
 EOF
 
 chmod +x firerox_run.sh
