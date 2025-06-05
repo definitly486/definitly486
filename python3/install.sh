@@ -1,16 +1,17 @@
 #!/bin/sh
 
+DIR=$(dirname "$(realpath $0)")
 sudo apt-get install -y  zlib1g-dev libffi-dev
 
 NAME=Python-3.8.13
 VER=$(echo $NAME | sed 's/.......//')
 wget https://www.python.org/ftp/python/$VER/$NAME.tar.xz
-tar xf $NAME.tar.xz
+tar xf $DIR/$NAME.tar.xz
 
-cp Setup $NAME/Modules
-sudo rm sudo rm /usr/local/bin/openssl
+cp $DIR/Setup $DIR/$NAME/Modules
+ sudo rm /usr/local/bin/openssl
 
-cd $NAME
+cd $DIR/$NAME
 ./configure
 make && sudo make install
 
