@@ -29,3 +29,5 @@ else
     echo "install packages for fedora"
     install_dnf
 fi
+
+#sudo apt-get install build-essential libmnl-dev libcap-dev zlib1g-dev  libsystemd-dev
