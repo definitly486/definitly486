@@ -8,7 +8,7 @@ DIR=$(dirname "$(realpath $0)")
 NAME=Python-3.8.13
 VER=$(echo $NAME | sed 's/.......//')
 wget -P $DIR  https://www.python.org/ftp/python/$VER/$NAME.tar.xz 
-tar xf $DIR/$NAME.tar.xz
+tar xf $DIR/$NAME.tar.xz -C $DIR
 
 cp $DIR/Setup $DIR/$NAME/Modules
  sudo rm /usr/local/bin/openssl
