@@ -1,7 +1,9 @@
 cd /tmp
 
-if ! [  -f "/tmp/palemoon-33.7.1.linux-x86_64-gtk2.tar.xz" ]; then
-     wget https://archive.palemoon.org/palemoon/33.x/33.7.1/Linux/palemoon-33.7.1.linux-x86_64-gtk2.tar.xz
+NAME=palemoon-31.4.2.linux-x86_64-gtk2.tar.xz
+
+if ! [  -f "/tmp/$NAME" ]; then
+     wget https://archive.palemoon.org/palemoon/31.x/31.4.2/$NAME
 fi
 
-tar -xf palemoon-33.7.1.linux-x86_64-gtk2.tar.xz -C $HOME
+tar -xf $NAME -C $HOME
