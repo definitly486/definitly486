@@ -9,13 +9,13 @@ fi
 
 install_apt () {
 
- apt install git mc screen htop sshpass 
+ apt install git mc screen htop sshpass lm-sensors
 
 }
 
 install_dnf  () {
 
- dnf  install git mc screen htop sshpass openssl 
+ dnf  install git mc screen htop sshpass openssl lm-sensors
 
 }
 
