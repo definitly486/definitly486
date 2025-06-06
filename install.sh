@@ -9,7 +9,7 @@ fi
 
 install_apt () {
 
- apt install git mc screen htop sshpass lm-sensors mpv
+ apt install git mc screen htop sshpass lm-sensors mpv build-essential
 
 }
 
