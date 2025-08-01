@@ -1,4 +1,6 @@
 #!/bin/sh
+DIR=$(dirname "$(realpath $0)")
+
 cd /tmp 
 
 if ! [  -f "/tmp/authenticator.txt.enc" ]; then
@@ -6,4 +8,4 @@ if ! [  -f "/tmp/authenticator.txt.enc" ]; then
 fi
 
 
-openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -e -d -in  authenticator.txt.enc  -out authenticator.txt
+openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -e -d -in  authenticator.txt.enc  -out $DIR/authenticator.txt
