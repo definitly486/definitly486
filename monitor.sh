@@ -7,9 +7,10 @@ while [ $var1 -gt 0 ]
 do
   cputemp=$(sysctl -n dev.cpu.0.temperature | cut -c 1-2)
   top=$(top | awk 'NR==9' | awk '{print $12 ,$11}')
+  now=$(date "+%Y-%m-%d %H:%M:%S")
 
-  echo cputemp:$cputemp >> $HOME/log
-  echo top:$top >> $HOME/log
+  echo "time:$now cputemp:$cputemp" >> $HOME/log
+  echo "time:$now top:$top" >> $HOME/log
 
   sleep 60
 done
