@@ -14,7 +14,7 @@ fi
 trap "rm -f $LOCKFILE" EXIT
 touch "$LOCKFILE"
 
-var1=5
+var1=5000
 while [ $var1 -gt 0 ]
 do
   cputemp=$(sysctl -n dev.cpu.0.temperature | cut -c 1-2)
