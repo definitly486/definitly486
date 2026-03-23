@@ -7,6 +7,6 @@ fi
 
 
 openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -e -d -in  tox.tar.gz.enc  -out tox.tar.gz
-tar -xJf tox.tar.gz
+tar -xf tox.tar.gz
 rm -R $HOME/.config/tox
 cp -R tox  $HOME/.config
