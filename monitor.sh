@@ -12,10 +12,10 @@ echo "Detected environment: $ENV_TYPE"
 
 # Выбор команды ssh
 if [ "$ENV_TYPE" = "linux" ]; then
-  SSH_CMD="sshpass -p 639639 ssh -T definitly@192.168.8.103"
+  SSH_CMD="sshpass -p 639639 ssh -T definitly@192.168.8.102"
 else
   echo "sshpass disabled for $ENV_TYPE"
-  SSH_CMD="ssh -T definitly@192.168.8.103"
+  SSH_CMD="ssh -T definitly@192.168.8.102"
 fi
 
 $SSH_CMD << 'EOF'
