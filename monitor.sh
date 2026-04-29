@@ -1,5 +1,24 @@
 #!/bin/sh
-sshpass -p  639639 ssh  -T definitly@192.168.8.103 << 'EOF'
+# Определение среды
+if [ -n "$PSModulePath" ]; then
+  ENV_TYPE="powershell"
+elif [ "$MSYSTEM" = "MINGW64" ] || [ "$MSYSTEM" = "MINGW32" ]; then
+  ENV_TYPE="mingw"
+else
+  ENV_TYPE="linux"
+fi
+
+echo "Detected environment: $ENV_TYPE"
+
+# Выбор команды ssh
+if [ "$ENV_TYPE" = "linux" ]; then
+  SSH_CMD="sshpass -p 639639 ssh -T definitly@192.168.8.103"
+else
+  echo "sshpass disabled for $ENV_TYPE"
+  SSH_CMD="ssh -T definitly@192.168.8.103"
+fi
+
+$SSH_CMD << 'EOF'
 #!/bin/sh
 
 exec >> "$HOME/log" 2>&1
