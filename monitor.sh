@@ -16,8 +16,11 @@ if [ "$ENV_TYPE" = "linux" ]; then
   IP=$(arp-scan --localnet 2>/dev/null | awk '/FreeBSD/ { print $1; exit }')
   SSH_CMD="sshpass -p 639639 ssh -T definitly@$IP"
 else
+$ip = arp -a | ForEach-Object {
+    if ($_ -match "FreeBSD") { ($_ -split '\s+')[0]; break }
+}
   echo "sshpass disabled for $ENV_TYPE"
-  SSH_CMD="ssh -T definitly@192.168.8.102"
+  SSH_CMD="ssh -T definitly@$ip"
 fi
 
 $SSH_CMD << 'EOF'
