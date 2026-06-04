@@ -12,7 +12,9 @@ echo "Detected environment: $ENV_TYPE"
 
 # Выбор команды ssh
 if [ "$ENV_TYPE" = "linux" ]; then
-  SSH_CMD="sshpass -p 639639 ssh -T definitly@192.168.8.102"
+
+  IP=$(arp-scan --localnet 2>/dev/null | awk '/FreeBSD/ { print $1; exit }')
+  SSH_CMD="sshpass -p 639639 ssh -T definitly@$IP"
 else
   echo "sshpass disabled for $ENV_TYPE"
   SSH_CMD="ssh -T definitly@192.168.8.102"
