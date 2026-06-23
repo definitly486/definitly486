@@ -8,7 +8,7 @@ from PIL import Image
 import mercantile
 import rasterio
 from rasterio.transform import from_bounds
-
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # -----------------------------
 # PATHS
@@ -311,6 +311,12 @@ def export_geotiff(all_tiles, min_lon, min_lat, max_lon, max_lat, z):
     print("GeoTIFF OK →", tif_path)
 
 
+
+def download_worker(task):
+    z, x, y = task
+    download_tile(z, x, y)
+
+
 # -----------------------------
 # MAIN
 # -----------------------------
@@ -321,12 +327,27 @@ def main():
 
     all_tiles = build_tiles(min_lon, min_lat, max_lon, max_lat, zooms)
 
-    # DOWNLOAD
-    for z in zooms:
-        print("download z", z)
+    
+    # DOWNLOAD (THREADS)
+    tasks = [
+    (z, x, y)
+    for z in zooms
+    for x, y in all_tiles[z]
+    ]
 
-        for x, y in all_tiles[z]:
-            download_tile(z, x, y)
+    print("TOTAL TILES:", len(tasks))
+
+    with ThreadPoolExecutor(max_workers=20) as executor:
+        futures = [executor.submit(download_worker, t) for t in tasks]
+
+    for i, f in enumerate(as_completed(futures), 1):
+        try:
+            f.result()
+        except:
+            pass
+
+        if i % 500 == 0:
+            print(f"downloaded {i}/{len(tasks)}")
 
     # STITCH LAST ZOOM
     z = zooms[-1]
