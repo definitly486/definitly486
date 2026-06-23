@@ -96,13 +96,19 @@ def build_tiles(min_lon, min_lat, max_lon, max_lat, zooms):
     out = {}
 
     for z in zooms:
-        tmin = mercantile.tile(min_lon, max_lat, z)
-        tmax = mercantile.tile(max_lon, min_lat, z)
+
+        tiles = list(mercantile.tiles(min_lon, min_lat, max_lon, max_lat, [z]))
+
+        xs = [t.x for t in tiles]
+        ys = [t.y for t in tiles]
+
+        x_min, x_max = min(xs), max(xs)
+        y_min, y_max = min(ys), max(ys)
 
         coords = [
             (x, y)
-            for x in range(tmin.x, tmax.x + 1)
-            for y in range(tmin.y, tmax.y + 1)
+            for x in range(x_min, x_max + 1)
+            for y in range(y_min, y_max + 1)
         ]
 
         out[z] = coords
