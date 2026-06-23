@@ -6,6 +6,9 @@ import sqlite3
 from io import BytesIO
 from PIL import Image
 import mercantile
+import rasterio
+from rasterio.transform import from_bounds
+
 
 # -----------------------------
 # PATHS
@@ -267,6 +270,47 @@ def export_mbtiles(all_tiles):
     print("MBTiles OK")
 
 
+def export_geotiff(all_tiles, min_lon, min_lat, max_lon, max_lat, z):
+    import numpy as np
+
+    img = stitch(z, all_tiles[z])  # уже RGB PIL image
+    arr = np.array(img)
+
+    height, width = arr.shape[:2]
+
+    # трансформация из bbox → пиксели
+    transform = from_bounds(
+        min_lon, min_lat,
+        max_lon, max_lat,
+        width,
+        height
+    )
+
+    tif_path = os.path.join(OUTPUT_DIR, "result.tif")
+
+    with rasterio.open(
+    tif_path,
+    "w",
+    driver="GTiff",
+    height=height,
+    width=width,
+    count=3,
+    dtype=arr.dtype,
+    crs="EPSG:3857",
+    transform=transform,
+    compress="LZW",
+    tiled=True,
+    blockxsize=256,
+    blockysize=256,
+    photometric="RGB",
+    ) as dst:
+        dst.write(arr[:, :, 0], 1)  # R
+        dst.write(arr[:, :, 1], 2)  # G
+        dst.write(arr[:, :, 2], 3)  # B
+
+    print("GeoTIFF OK →", tif_path)
+
+
 # -----------------------------
 # MAIN
 # -----------------------------
@@ -295,6 +339,12 @@ def main():
 
     print("DONE →", OUTPUT_DIR)
 
+    z = zooms[-1]
+    img = stitch(z, all_tiles[z])
+
+    img.save(os.path.join(OUTPUT_DIR, "result.png"))
+
+    export_geotiff(all_tiles, min_lon, min_lat, max_lon, max_lat, z)
 
 if __name__ == "__main__":
     main()
