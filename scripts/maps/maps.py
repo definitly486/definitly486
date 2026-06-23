@@ -166,9 +166,10 @@ def stitch(z, coords):
 # -----------------------------
 # OSMAND SQLITEDB (FIXED FINAL)
 # -----------------------------
-def export_sqlitedb(all_tiles):
-    db = os.path.join(OUTPUT_DIR, "fgis_les.sqlitedb")
-
+def export_sqlitedb(all_tiles, lat, lon, radius_km):
+    name = make_name(lat, lon, radius_km)
+    db = os.path.join(OUTPUT_DIR, f"{name}.sqlitedb")
+   
     if os.path.exists(db):
         os.remove(db)
 
@@ -230,8 +231,9 @@ def export_sqlitedb(all_tiles):
 # -----------------------------
 # MBTILES (ONLY HERE TMS FLIP)
 # -----------------------------
-def export_mbtiles(all_tiles):
-    path = os.path.join(OUTPUT_DIR, "fgis_les.mbtiles")
+def export_mbtiles(all_tiles, lat, lon, radius_km):
+    name = make_name(lat, lon, radius_km)
+    path = os.path.join(OUTPUT_DIR, f"{name}.mbtiles")
 
     if os.path.exists(path):
         os.remove(path)
@@ -277,7 +279,13 @@ def export_mbtiles(all_tiles):
     print("MBTiles OK")
 
 
-def export_geotiff(all_tiles, min_lon, min_lat, max_lon, max_lat, z):
+def make_name(lat, lon, radius_km):
+    return f"lat{lat:.5f}_lon{lon:.5f}_r{radius_km:.1f}"
+
+
+def export_geotiff(all_tiles, min_lon, min_lat, max_lon, max_lat, z, lat, lon, radius_km):
+    name = make_name(lat, lon, radius_km)
+    tif_path = os.path.join(OUTPUT_DIR, f"{name}.tif")
     import numpy as np
 
     img = stitch(z, all_tiles[z])  # уже RGB PIL image
@@ -293,7 +301,7 @@ def export_geotiff(all_tiles, min_lon, min_lat, max_lon, max_lat, z):
         height
     )
 
-    tif_path = os.path.join(OUTPUT_DIR, "result.tif")
+    tif_path = os.path.join(OUTPUT_DIR, f"{name}.tif")
 
     with rasterio.open(
     tif_path,
@@ -362,8 +370,8 @@ def main():
 
     img.save(os.path.join(OUTPUT_DIR, "result.png"))
 
-    export_sqlitedb(all_tiles)
-    export_mbtiles(all_tiles)
+    export_sqlitedb(all_tiles, lat, lon, radius_km)
+    export_mbtiles(all_tiles, lat, lon, radius_km)
 
     print("DONE →", OUTPUT_DIR)
 
@@ -372,7 +380,7 @@ def main():
 
     img.save(os.path.join(OUTPUT_DIR, "result.png"))
 
-    export_geotiff(all_tiles, min_lon, min_lat, max_lon, max_lat, z)
+    export_geotiff(all_tiles, min_lon, min_lat, max_lon, max_lat, z, lat, lon, radius_km)
 
 if __name__ == "__main__":
     main()

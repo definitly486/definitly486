@@ -1,41 +1,35 @@
 #!/bin/sh
 
-FILE="$HOME/result_output/fgis_les.sqlitedb"
+SOURCE_DIR="$HOME/result_output"
 TARGET_DIR="/storage/emulated/0/Android/data/net.osmand/files/tiles"
 
-# Проверка файла
-if [ ! -f "$FILE" ]; then
-    echo "❌ Файл $FILE не найден в текущей папке"
+# Проверка файлов
+FILES=$(ls "$SOURCE_DIR"/*.sqlitedb 2>/dev/null)
+
+if [ -z "$FILES" ]; then
+    echo "❌ Нет .sqlitedb файлов в $SOURCE_DIR"
     exit 1
 fi
 
-# Проверка подключения устройства
-DEVICE=$(adb devices | grep -w "device" | awk '{print $1}' | head -n 1)
-
-if [ -z "$DEVICE" ]; then
-    echo "❌ Устройство не найдено"
-    exit 1
-fi
-
-echo "✅ Устройство найдено: $DEVICE"
-
-# Проверка доступа к ADB
+# adb
 adb start-server > /dev/null
 
-# Проверка авторизации
-STATE=$(adb devices | grep "$DEVICE" | awk '{print $2}')
+DEVICE=$(adb devices | awk 'NR>1 && $2=="device" {print $1}' | head -n 1)
 
-if [ "$STATE" != "device" ]; then
-    echo "❌ Устройство не авторизовано (проверь USB debugging)"
+if [ -z "$DEVICE" ]; then
+    echo "❌ Устройство не найдено или не авторизовано"
     exit 1
 fi
 
-echo "📤 Копирование файла..."
+echo "✅ Устройство: $DEVICE"
 
-adb push "$FILE" "$TARGET_DIR/"
+adb shell "mkdir -p $TARGET_DIR"
 
-if [ $? -eq 0 ]; then
-    echo "✅ Файл успешно загружен в $TARGET_DIR"
-else
-    echo "❌ Ошибка при копировании"
-fi
+echo "📤 Загружаю все sqlitedb файлы..."
+
+for FILE in $FILES; do
+    echo "→ $FILE"
+    adb push "$FILE" "$TARGET_DIR/"
+done
+
+echo "✅ Готово: все sqlitedb загружены"
