@@ -29,14 +29,21 @@ PATH_TEMPLATE = "/plk/mapproxy-eeko/wmts/eeko-topo/webmercator/{z}/{x}/{y}.png"
 # -----------------------------
 # INPUT
 # -----------------------------
-def get_bbox():
-    print("lat lon size_km")
-    lat, lon, size_km = map(float, input("→ ").replace(",", " ").split())
+def get_bbox_radius():
+    print("lat lon radius_km")
+    lat, lon, radius_km = map(float, input("→ ").replace(",", " ").split())
 
-    dlat = size_km / 111.0
-    dlon = size_km / (111.0 * math.cos(math.radians(lat)))
+    lat_rad = math.radians(lat)
 
-    return lon - dlon/2, lat - dlat/2, lon + dlon/2, lat + dlat/2
+    dlat = radius_km / 111.0
+    dlon = radius_km / (111.0 * math.cos(lat_rad))
+
+    min_lon = lon - dlon
+    max_lon = lon + dlon
+    min_lat = lat - dlat
+    max_lat = lat + dlat
+
+    return lat, lon, radius_km, min_lon, min_lat, max_lon, max_lat
 
 
 # -----------------------------
@@ -321,7 +328,7 @@ def download_worker(task):
 # MAIN
 # -----------------------------
 def main():
-    min_lon, min_lat, max_lon, max_lat = get_bbox()
+    lat, lon, radius_km, min_lon, min_lat, max_lon, max_lat = get_bbox_radius()
 
     zooms = list(range(6, 16))
 
